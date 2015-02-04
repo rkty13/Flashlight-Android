@@ -29,13 +29,6 @@ public class MainActivity extends Activity {
             Log.e("Camera Error", e.getMessage());
         }
 
-        if (savedInstanceState != null) {
-            isOn = savedInstanceState.getBoolean(KEY_TOGGLE);
-            if (isOn) {
-                lightOn();
-            }
-        }
-
         toggleFlashlight = (Button)findViewById(R.id.toggle_button);
         toggleFlashlight.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,6 +40,13 @@ public class MainActivity extends Activity {
                 }
             }
         });
+
+        if (savedInstanceState != null) {
+            isOn = savedInstanceState.getBoolean(KEY_TOGGLE);
+            if (isOn) {
+                lightOn();
+            }
+        }
     }
 
     @Override
