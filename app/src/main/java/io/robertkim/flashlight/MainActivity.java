@@ -69,5 +69,6 @@ public class MainActivity extends Activity {
         cam.setParameters(params);
         cam.stopPreview();
         isOn = false;
+
     }
 }
