@@ -6,7 +6,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Joe is a Bum"
+        android:text="@string/button"
         android:id="@+id/toggle_button"
 
         android:layout_centerVertical="true"
