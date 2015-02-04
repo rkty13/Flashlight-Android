@@ -8,13 +8,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-
 public class MainActivity extends Activity {
 
     private Button toggleFlashlight;
     private Camera cam;
-    Parameters params;
+    private Parameters params;
     private boolean isOn = false;
+    private static final String KEY_TOGGLE = "camera";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +29,13 @@ public class MainActivity extends Activity {
             Log.e("Camera Error", e.getMessage());
         }
 
+        if (savedInstanceState != null) {
+            isOn = savedInstanceState.getBoolean(KEY_TOGGLE);
+            if (isOn) {
+                lightOn();
+            }
+        }
+
         toggleFlashlight = (Button)findViewById(R.id.toggle_button);
         toggleFlashlight.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,6 +47,12 @@ public class MainActivity extends Activity {
                 }
             }
         });
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putBoolean(KEY_TOGGLE, isOn);
     }
 
     private void lightOn() {
