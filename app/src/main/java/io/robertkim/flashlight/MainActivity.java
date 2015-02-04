@@ -20,6 +20,12 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        try {
+            cam = Camera.open();
+            params = cam.getParameters();
+        } catch (RuntimeException e) {
+            Log.e("Camera Error", e.getMessage());
+        }
 
         toggleFlashlight = (Button)findViewById(R.id.toggle_button);
         toggleFlashlight.setOnClickListener(new View.OnClickListener() {
@@ -32,9 +38,7 @@ public class MainActivity extends Activity {
                 }
             }
         });
-
         initializeCam();
-
         if (savedInstanceState != null) {
             isOn = savedInstanceState.getBoolean(KEY_TOGGLE);
             if (isOn) {
