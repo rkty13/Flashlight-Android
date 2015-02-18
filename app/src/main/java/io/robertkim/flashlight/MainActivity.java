@@ -21,8 +21,6 @@ public class MainActivity extends FragmentActivity {
             fm.beginTransaction()
                     .add(R.id.fragmentContainer, flashlightFragment)
                     .commit();
-
         }
-
     }
 }
