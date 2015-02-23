@@ -1,24 +1,19 @@
 package io.robertkim.flashlight;
 
-import android.graphics.Color;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageButton;
 
 /**
 * Created by robertkim on 2/4/15.
 */
 public class FlashlightFragment extends Fragment {
+    private static final boolean DEBUG = true;
+    private static final String TAG = FlashlightFragment.class.getSimpleName();
 
-    private Camera cam;
-    private Camera.Parameters params;
-    private ImageButton toggle;
-    private boolean isOn = false;
+    private Camera mCam;
+    private Camera.Parameters mParams;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -27,63 +22,62 @@ public class FlashlightFragment extends Fragment {
         initializeCam();
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup parent,
-                             Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_light, parent, false);
-        toggle = (ImageButton) v.findViewById(R.id.button_toggle);
-        toggle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isOn) {
-                    lightOff();
-                } else {
-                    lightOn();
-                }
-            }
-        });
-        return v;
-    }
-
-    private void initializeCam() {
+    public void initializeCam() {
         try {
-            cam = Camera.open();
-            params = cam.getParameters();
+            mCam = Camera.open();
+            mParams = mCam.getParameters();
         } catch (RuntimeException e) {
             Log.e("Camera Error", e.getMessage());
         }
     }
 
-    private void lightOn() {
-        params = cam.getParameters();
-        params.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
-        toggle.setBackgroundColor(Color.parseColor("#ecf0f1"));
-        cam.setParameters(params);
-        cam.startPreview();
-        isOn = true;
+    public void lightOn() {
+        mParams = mCam.getParameters();
+        mParams.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+        mCam.setParameters(mParams);
+        mCam.startPreview();
     }
 
-    private void lightOff() {
-        params = cam.getParameters();
-        params.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
-        toggle.setBackgroundColor(Color.parseColor("#2c3e50"));
-        cam.setParameters(params);
-        cam.stopPreview();
-        isOn = false;
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (cam != null) {
-            cam.release();
-        }
+    public void lightOff() {
+        mParams = mCam.getParameters();
+        mParams.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+        mCam.setParameters(mParams);
+        mCam.stopPreview();
     }
 
     @Override
     public void onStart() {
+        if (DEBUG) Log.i(TAG, "onStart()");
         super.onStart();
-        toggle.setBackgroundColor(Color.parseColor("#2c3e50"));
         initializeCam();
+    }
+
+    @Override
+    public void onResume() {
+        if (DEBUG) Log.i(TAG, "onResume()");
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        if (DEBUG) Log.i(TAG, "onPause()");
+        super.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        if (DEBUG) Log.i(TAG, "onStop()");
+        super.onStop();
+
+        if (mCam != null) {
+            mCam.stopPreview();
+            mCam.release();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        if (DEBUG) Log.i(TAG, "onDestroy()");
+        super.onDestroy();
     }
 }

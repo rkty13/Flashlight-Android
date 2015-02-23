@@ -2,6 +2,16 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/fragmentContainer"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="match_parent">
 
-/>
+    <ImageButton
+        android:id="@+id/button_toggle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#2c3e50"
+        android:src="@drawable/flashlight_white"
+        android:contentDescription=""
+        android:scaleType="fitCenter"
+        android:padding="25dp" />
+
+</FrameLayout>
