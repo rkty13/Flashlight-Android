@@ -1,6 +1,7 @@
 package io.robertkim.flashlight;
 
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -56,14 +57,14 @@ public class MainActivity extends FragmentActivity {
     private void lightOnWrap(boolean switchTo) {
         toggle.setBackgroundColor(onColor);
         toggle.setImageResource(R.drawable.flashlight_yellow);
-        flashlightFragment.lightOn();
+        new toggleLight().execute(true);
         isOn = switchTo;
     }
 
     private void lightOffWrap(boolean switchTo) {
         toggle.setBackgroundColor(offColor);
         toggle.setImageResource(R.drawable.flashlight_white);
-        flashlightFragment.lightOff();
+        new toggleLight().execute(false);
         isOn = switchTo;
     }
 
@@ -71,5 +72,18 @@ public class MainActivity extends FragmentActivity {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBoolean(KEY_LIGHT_TOGGLE, isOn);
+    }
+
+    private class toggleLight extends AsyncTask<Boolean, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Boolean... params) {
+            if (params[0]) {
+                flashlightFragment.lightOn();
+            } else {
+                flashlightFragment.lightOff();
+            }
+            return null;
+        }
     }
 }

@@ -9,7 +9,7 @@ import android.util.Log;
 * Created by robertkim on 2/4/15.
 */
 public class FlashlightFragment extends Fragment {
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
     private static final String TAG = FlashlightFragment.class.getSimpleName();
 
     private Camera mCam;
@@ -27,7 +27,7 @@ public class FlashlightFragment extends Fragment {
             mCam = Camera.open();
             mParams = mCam.getParameters();
         } catch (RuntimeException e) {
-            Log.e("Camera Error", e.getMessage());
+            if (DEBUG) Log.e("Camera Error", "hi");
         }
     }
 
