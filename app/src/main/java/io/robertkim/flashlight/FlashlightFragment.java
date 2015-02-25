@@ -9,7 +9,7 @@ import android.util.Log;
 * Created by robertkim on 2/4/15.
 */
 public class FlashlightFragment extends Fragment {
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
     private static final String TAG = FlashlightFragment.class.getSimpleName();
 
     private Camera mCam;
@@ -27,11 +27,14 @@ public class FlashlightFragment extends Fragment {
             mCam = Camera.open();
             mParams = mCam.getParameters();
         } catch (RuntimeException e) {
-            if (DEBUG) Log.e("Camera Error", "hi");
+            if (DEBUG) Log.e(TAG, "Camera RuntimeException");
         }
     }
 
     public void lightOn() {
+        if (mCam == null) {
+            initializeCam();
+        }
         mParams = mCam.getParameters();
         mParams.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
         mCam.setParameters(mParams);
@@ -49,19 +52,30 @@ public class FlashlightFragment extends Fragment {
     public void onStart() {
         if (DEBUG) Log.i(TAG, "onStart()");
         super.onStart();
-        initializeCam();
+        if (mCam == null) {
+            initializeCam();
+        }
     }
 
     @Override
     public void onResume() {
         if (DEBUG) Log.i(TAG, "onResume()");
         super.onResume();
+        if (mCam == null) {
+            initializeCam();
+        }
     }
 
     @Override
     public void onPause() {
         if (DEBUG) Log.i(TAG, "onPause()");
         super.onPause();
+
+        if (mCam != null) {
+            mCam.stopPreview();
+            mCam.release();
+            mCam = null;
+        }
     }
 
     @Override
@@ -72,6 +86,7 @@ public class FlashlightFragment extends Fragment {
         if (mCam != null) {
             mCam.stopPreview();
             mCam.release();
+            mCam = null;
         }
     }
 
@@ -79,5 +94,11 @@ public class FlashlightFragment extends Fragment {
     public void onDestroy() {
         if (DEBUG) Log.i(TAG, "onDestroy()");
         super.onDestroy();
+
+        if (mCam != null) {
+            mCam.stopPreview();
+            mCam.release();
+            mCam = null;
+        }
     }
 }

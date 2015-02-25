@@ -5,10 +5,14 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 
 public class MainActivity extends FragmentActivity {
+
+    private static final boolean DEBUG = true;
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     private FlashlightFragment flashlightFragment;
     private ImageButton toggle;
@@ -72,6 +76,15 @@ public class MainActivity extends FragmentActivity {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBoolean(KEY_LIGHT_TOGGLE, isOn);
+    }
+
+    @Override
+    protected void onResume() {
+        if (DEBUG) Log.i(TAG, "onResume()");
+        super.onResume();
+        if (isOn) {
+            lightOnWrap(true);
+        }
     }
 
     private class toggleLight extends AsyncTask<Boolean, Void, Void> {
