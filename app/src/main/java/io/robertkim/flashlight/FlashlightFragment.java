@@ -5,12 +5,15 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
+import java.util.List;
+
 /**
 * Created by robertkim on 2/4/15.
 */
 public class FlashlightFragment extends Fragment {
-    private static final boolean DEBUG = true;
+    private static final String FLASHLIGHT_FRAGMENT = "flashlight_fragment";
     private static final String TAG = FlashlightFragment.class.getSimpleName();
+    private static final boolean DEBUG = false;
 
     private Camera mCam;
     private Camera.Parameters mParams;
@@ -20,6 +23,28 @@ public class FlashlightFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
         initializeCam();
+    }
+
+    public boolean hasFlash() {
+        if (mCam == null) {
+            return false;
+        }
+
+        mParams = mCam.getParameters();
+
+        if (mParams.getFlashMode() == null) {
+            return false;
+        }
+
+        List<String> supportedFlashModes = mParams.getSupportedFlashModes();
+        if (supportedFlashModes == null ||
+                supportedFlashModes.isEmpty() ||
+                supportedFlashModes.size() == 1 &&
+                        supportedFlashModes.get(0).equals(Camera.Parameters.FLASH_MODE_OFF)) {
+            return false;
+        }
+
+        return true;
     }
 
     public void initializeCam() {

@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <SurfaceView
-        android:id="@+id/PREVIEW"
+        android:id="@+id/flash_compat"
         android:layout_width="1dip"
         android:layout_height="1dip"/>
 

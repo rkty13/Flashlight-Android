@@ -11,7 +11,7 @@ import android.widget.ImageButton;
 
 public class MainActivity extends FragmentActivity {
 
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private FlashlightFragment flashlightFragment;
@@ -43,6 +43,7 @@ public class MainActivity extends FragmentActivity {
         });
 
         FragmentManager fm = getSupportFragmentManager();
+
         flashlightFragment = (FlashlightFragment) fm.findFragmentByTag(FLASHLIGHT_FRAGMENT);
 
         if (flashlightFragment == null) {
